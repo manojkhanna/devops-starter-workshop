@@ -12,7 +12,7 @@ From your terminal window, create the chef-repo directory under your home direct
 mkdir ~/chef-repo
 ```
 
-change to the directory created
+Change to the directory created
 
 ```shell
 cd chef-repo
@@ -27,10 +27,9 @@ touch hello.rb
 vim / nano / emacs hello.rb
 ```
 
-> Sorry windows users :-), but you'll have better life with Sublime or Notepad ++ 
+> Sorry windows users :-), but you'll have better life with Sublime or Notepad++
 
-
-Create the MOTD file
+##### Create the MOTD file
 
 ```ruby
 file '/tmp/motd' do
@@ -82,10 +81,10 @@ file '/tmp/motd' do
 
 To test file created, run this command
 
-```
+```shell
 more /tmp/motd
 /tmp/motd
-hello world
+hello world
 ```
 
 Try running the chef-client command again and see waht happens!
@@ -97,14 +96,13 @@ file '/tmp/motd' do
   content 'hello world of chef!'
 end
 ```
-
-Andre run the command, you will see a message like so amongst other things
+And re-run the command, you will see a message like so amongst other things
 
 ```
-    - update content in file /tmp/motd from b94d27 to 399614
-    --- /tmp/motd	2017-02-26 11:18:27.529202808 +0000
-    +++ /tmp/.chef-motd20170226-2400-ukvkcp	2017-02-26 11:19:29.100584344 +0000
-    @@ -1,2 +1,2 @@
-    -hello world
-    +hello world of chef!
+ - update content in file /tmp/motd from b94d27 to 399614
+ --- /tmp/motd	2017-02-26 11:18:27.529202808 +0000
+ +++ /tmp/.chef-motd20170226-2400-ukvkcp	2017-02-26 11:19:29.100584344 +0000
+ @@ -1,2 +1,2 @@
+ -hello world
+ +hello world of chef!
 ```
