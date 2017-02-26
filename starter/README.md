@@ -58,9 +58,9 @@ PS > [Environment]::SetEnvironmentVariable("PATH", "$path;$vagrant_path", "Machi
 
 TODO
 
-### Settip up using Virtualbox
+### Setting up using Virtualbox
 
-Add ununtu virtual box using Vagrant 
+Add Ubuntu virtual box using Vagrant 
 
 ```
 vagrant box add bento/ubuntu-14.04 --provider=virtualbox
