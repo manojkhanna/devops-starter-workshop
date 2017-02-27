@@ -82,7 +82,7 @@ file '/var/www/html/index.html' do
   	<title> The Cool Chef </title>
   </head>
   <body>
-    <h1>Look Maa!!! I'm Cheffing!/h1>
+    <h1>Look Maa!!! I am Cheffing!/h1>
   </body>
 </html>'
 end
@@ -94,7 +94,7 @@ And re-run the recipe
 sudo chef-client --local-mode webserver.rb
 ```
 
-You can now browse to the page by seeting up port forwarding for port 80 on your vritaul box. To do so, logout of vagrant box and open Vagrantfile in your favourite editor, add the configuration for port forwarding 
+You can now browse to the page by setting up port forwarding for port 80 on your vritaul box. To do so, logout of vagrant box and open Vagrantfile in your favourite editor, add the configuration for port forwarding 
 
 ```ruby
 cgi.vm.network "forwarded_port", guest: 80, host: 8989
