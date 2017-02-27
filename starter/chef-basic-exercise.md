@@ -106,3 +106,21 @@ And re-run the command, you will see a message like so amongst other things
  -hello world
  +hello world of chef!
 ```
+
+##### Removing a resource
+
+In the ~/chef-repo directory create another file called goodbye.rb with these contents
+
+```ruby
+file '/tmp/motd' do
+  action :delete
+end
+```
+
+Run this command 
+
+```
+chef-client --local-mode goodbye.rb
+```
+
+This command removes the resource so the ```more /tmp/motd``` comand will return file not found.
