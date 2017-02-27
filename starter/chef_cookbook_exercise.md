@@ -19,7 +19,7 @@ chef generate cookbook cookbooks/learn_chef_apache2
 Install tree utility
 
 ```
-sudo apt get install -y tree
+sudo apt-get install -y tree
 ```
 
 Here's the direcoty structure this command creates 
