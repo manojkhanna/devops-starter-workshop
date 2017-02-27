@@ -1,126 +1,161 @@
-# Chef Basic Exercise
+# Chef Introduction
 
-## Configure a resource
+## Installation Using Vagrant & Virtualbox
 
-To get started, let's look at a basic configuration management project. We'll learn how to manage the Message of the Day (MOTD) file for your organization. The MOTD file is an example of a resource.
+### Windows
 
-### Setup a working directory
+#### Pre-Steps
 
-From your terminal window, create the chef-repo directory under your home directory, ~/.
+* Install Git from https://git-scm.com/download/win
+* Install sshwindows from https://sourceforge.net/projects/sshwindows/
+* Check git & ssh version on Powershell
+* Install Virtualbox from either of
+  * https://chocolatey.org/packages/virtualbox/
+  * https://www.virtualbox.org/wiki/Downloads
+* Install Vagrant from either of
+  * https://chocolatey.org/packages/vagrant/
+  * https://www.vagrantup.com/downloads.html
 
-```shell
-mkdir ~/chef-repo
+#### Setup PATH Verification
+
+Verify git installation in Powershell 
+```
+PS > git --version
 ```
 
-Change to the directory created
-
-```shell
-cd chef-repo
+Verify ssh installation in Powershell
+```
+PS > ssh
 ```
 
-### Writing the first Chef resource
+Verify VBoxManage 
 
-Add a simple hello.rb
-
-```shell
-touch hello.rb
-vim / nano / emacs hello.rb
+To check if VBoxManage is available in system path, simply run the 
+```
+VBoxManage --version 
+```
+command. If not found setup the PATH as follows
+```
+PS > $path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
+PS > $vbox_path = "C:\Program Files\Oracle\VirtualBox"
+PS > [Environment]::SetEnvironmentVariable("PATH", "$path;$vbox_path", "Machine")
 ```
 
-> Sorry windows users :-), but you'll have better life with Sublime or Notepad++
+Verify Vagrant
 
-##### Create the MOTD file
+To check if VBoxManage is available in system path, simply run the 
+```
+VBoxManage --version 
+```
+command. If not found setup the PATH using following command
+```
+PS > $path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
+PS > $vagrant_path = "C:\HashiCorp\Vagrant\bin"
+PS > [Environment]::SetEnvironmentVariable("PATH", "$path;$vagrant_path", "Machine")
+```
+
+### Other Platforms
+
+TODO
+
+### Setting up using Virtualbox
+
+Add Ubuntu virtual box using Vagrant 
+
+```
+vagrant box add bento/ubuntu-14.04 --provider=virtualbox
+```
+
+Initalise an Ubuntu Virutalbox
+```
+mkdir starter
+cd starter
+vagrant init bento/ubuntu-14.04
+```
+
+this palces a default Vagrantfile into the directory. Edit the Vagrantfile like so
 
 ```ruby
-file '/tmp/motd' do
-  content 'hello world'
-end
-```
 
-To run this file 
-
-```
-vagrant@vagrant:~/chef-repo$ chef-client --local-mode hello.rb
-[2017-02-26T11:18:21+00:00] WARN: No config file found or specified on command line, using command line options.
-[2017-02-26T11:18:21+00:00] WARN: No cookbooks directory found at or above current directory.  Assuming /home/vagrant/chef-repo.
-[2017-02-26T11:18:21+00:00] INFO: Forking chef instance to converge...
-Starting Chef Client, version 12.18.31
-[2017-02-26T11:18:21+00:00] INFO: *** Chef 12.18.31 ***
-[2017-02-26T11:18:21+00:00] INFO: Platform: x86_64-linux
-[2017-02-26T11:18:21+00:00] INFO: Chef-client pid: 1916
-[2017-02-26T11:18:27+00:00] INFO: HTTP Request Returned 404 Not Found: Object not found: chefzero://localhost:8889/nodes/vagrant.vm
-[2017-02-26T11:18:27+00:00] INFO: Run List is []
-[2017-02-26T11:18:27+00:00] INFO: Run List expands to []
-[2017-02-26T11:18:27+00:00] INFO: Starting Chef Run for vagrant.vm
-[2017-02-26T11:18:27+00:00] INFO: Running start handlers
-[2017-02-26T11:18:27+00:00] INFO: Start handlers complete.
-[2017-02-26T11:18:27+00:00] INFO: HTTP Request Returned 404 Not Found: Object not found:
-resolving cookbooks for run list: []
-[2017-02-26T11:18:27+00:00] INFO: Loading cookbooks []
-Synchronizing Cookbooks:
-Installing Cookbook Gems:
-Compiling Cookbooks...
-[2017-02-26T11:18:27+00:00] WARN: Node vagrant.vm has an empty run list.
-Converging 1 resources
-Recipe: @recipe_files::/home/vagrant/chef-repo/hello.rb
-  * file[/tmp/motd] action create[2017-02-26T11:18:27+00:00] INFO: Processing file[/tmp/motd] action create (@recipe_files::/home/vagrant/chef-repo/hello.rb line 1)
-[2017-02-26T11:18:27+00:00] INFO: file[/tmp/motd] created file /tmp/motd
-
-    - create new file /tmp/motd[2017-02-26T11:18:27+00:00] INFO: file[/tmp/motd] updated file contents /tmp/motd
-
-    - update content in file /tmp/motd from none to b94d27
-
-▽
-file '/tmp/motd' do
-    --- /tmp/motd	2017-02-26 11:18:27.529202808 +0000
-    +++ /tmp/.chef-motd20170226-1916-v2nqee	2017-02-26 11:18:27.529202808 +0000
-    @@ -1 +1,2 @@
-    +hello world
-[2017-02-26T11:18:27+00:00] INFO: Chef Run complete in 0.091406634 seconds
-```
-
-To test file created, run this command
-
-```shell
-more /tmp/motd
-/tmp/motd
-hello world
-```
-
-Try running the chef-client command again and see waht happens!
-
-Let's modify the file 
-
-```ruby
-file '/tmp/motd' do
-  content 'hello world of chef!'
-end
-```
-And re-run the command, you will see a message like so amongst other things
+	config.vm.define "cgi-starter" do |cgi|
+		cgi.vm.box = "bento/ubuntu-14.04"
+		cgi.vm.provider :virtualbox do |vbox|
+      vbox.name = "cgi-starter"
+    end		
+  end
 
 ```
- - update content in file /tmp/motd from b94d27 to 399614
- --- /tmp/motd	2017-02-26 11:18:27.529202808 +0000
- +++ /tmp/.chef-motd20170226-2400-ukvkcp	2017-02-26 11:19:29.100584344 +0000
- @@ -1,2 +1,2 @@
- -hello world
- +hello world of chef!
-```
 
-##### Removing a resource
-
-In the ~/chef-repo directory create another file called goodbye.rb with these contents
-
-```ruby
-file '/tmp/motd' do
-  action :delete
-end
-```
-
-Run this command 
+save the file and start the VM
 
 ```
-chef-client --local-mode goodbye.rb
+vagrant up
 ```
 
-This command removes the resource so the ```more /tmp/motd``` comand will return file not found.
+you should see similar output
+```
+MacBook-Pro-2:starter anadi$ vagrant up
+Bringing machine 'cgi-starter' up with 'virtualbox' provider...
+==> cgi-starter: Importing base box 'bento/ubuntu-14.04'...
+==> cgi-starter: Matching MAC address for NAT networking...
+==> cgi-starter: Checking if box 'bento/ubuntu-14.04' is up to date...
+==> cgi-starter: Setting the name of the VM: cgi-starter
+==> cgi-starter: Clearing any previously set network interfaces...
+==> cgi-starter: Preparing network interfaces based on configuration...
+    cgi-starter: Adapter 1: nat
+==> cgi-starter: Forwarding ports...
+    cgi-starter: 22 (guest) => 2222 (host) (adapter 1)
+==> cgi-starter: Booting VM...
+==> cgi-starter: Waiting for machine to boot. This may take a few minutes...
+    cgi-starter: SSH address: 127.0.0.1:2222
+    cgi-starter: SSH username: vagrant
+    cgi-starter: SSH auth method: private key
+    cgi-starter: Warning: Remote connection disconnect. Retrying...
+    cgi-starter:
+    cgi-starter: Vagrant insecure key detected. Vagrant will automatically replace
+    cgi-starter: this with a newly generated keypair for better security.
+    cgi-starter:
+    cgi-starter: Inserting generated public key within guest...
+    cgi-starter: Removing insecure key from the guest if it's present...
+    cgi-starter: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> cgi-starter: Machine booted and ready!
+==> cgi-starter: Checking for guest additions in VM...
+==> cgi-starter: Mounting shared folders...
+    cgi-starter: /vagrant => /Users/anadi/Code/meetup/cgi-devops/starter
+```
+
+Once started login to the VM 
+
+```
+vagrant ssh
+```
+
+You should see an ubuntu prompt if everything goes fine
+
+```
+MacBook-Pro-2:starter anadi$ vagrant ssh
+Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 3.13.0-103-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+ System information disabled due to load higher than 1.0
+
+vagrant@vagrant:~$
+```
+
+Update system and install curl 
+
+```
+vagrant@vagrant:~$ sudo apt-get update
+vagrant@vagrant:~$ sudo apt-get -y install curl
+```
+
+Install Chef development Kit
+
+```
+curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chefdk -c stable -v 1.2.22-1
+```
+
+> 1.2.22-1 is the latest stable version of Chef at the time of writing this guide (26/Feb/2017), check Chef website for latest version
+
+That's it we are ready to roll!
