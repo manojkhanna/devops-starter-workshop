@@ -144,3 +144,6 @@ end
 
 Run the cookbook. Voila! we've made our first cookbook!
 
+```shell
+sudo chef-client --local-mode --runlist="recipe[learn_chef_apache2]"
+```
