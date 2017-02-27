@@ -78,7 +78,7 @@ this palces a default Vagrantfile into the directory. Edit the Vagrantfile like 
 ```ruby
 
 	config.vm.define "cgi-starter" do |cgi|
-		config.vm.box = "bento/ubuntu-14.04"
+		cgi.vm.box = "bento/ubuntu-14.04"
 		cgi.vm.provider :virtualbox do |vbox|
       vbox.name = "cgi-starter"
     end		

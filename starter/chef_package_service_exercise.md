@@ -94,4 +94,26 @@ And re-run the recipe
 sudo chef-client --local-mode webserver.rb
 ```
 
-You can now browse to the page by seeting up port forwarding for port 80 on your vritaul box.
+You can now browse to the page by seeting up port forwarding for port 80 on your vritaul box. To do so, logout of vagrant box and open Vagrantfile in your favourite editor, add the configuration for port forwarding 
+
+```ruby
+cgi.vm.network "forwarded_port", guest: 80, host: 8989
+```
+
+The updated Vagrantfile should look like
+
+```ruby
+  config.vm.define "cgi-starter" do |cgi|
+    cgi.vm.box = "bento/ubuntu-14.04"
+    cgi.vm.network "forwarded_port", guest: 80, host: 8989
+    cgi.vm.provider :virtualbox do |vbox|
+      vbox.name = "cgi-starter"
+    end
+  end
+```
+Save the file and reload Vagrant by running the command
+
+```shell
+vagrant reload
+```
+You should be able to browse to the page through http://localgost:8989 now
