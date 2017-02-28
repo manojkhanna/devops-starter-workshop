@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<slave>
+  <name><%= $name %></name>
+  <description><%= $descr %></description>
+  <remoteFS>/home/vagrant/jenkins/slave</remoteFS>
+  <numExecutors><%= $executors %></numExecutors>
+  <mode>EXCLUSIVE</mode>
+  <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+  <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.13">
+    <host><%= $host %></host>
+    <port><%= $port %></port>
+    <credentialsId>vagrant-ssh</credentialsId>
+    <javaPath>/usr/bin/java</javaPath>
+    <launchTimeoutSeconds>45</launchTimeoutSeconds>
+  </launcher>
+  <label><%= $label %></label>
+  <nodeProperties/>
+  <userId>anonymous</userId>
+</slave>
