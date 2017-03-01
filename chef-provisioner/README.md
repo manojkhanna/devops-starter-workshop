@@ -83,4 +83,4 @@ Boot the vagrant box
 ```bash
 vagrant up
 ```
- 
+Visit the Web server homepage on your machine through the URL ```http://localhost:8989```. This goes to show we have provisoned a machine with chef through Vagrant. 
