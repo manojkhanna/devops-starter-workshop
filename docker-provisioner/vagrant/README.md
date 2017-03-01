@@ -1,0 +1,59 @@
+# Using Docker as Vagrant Provider
+
+This exercise guides you how to use Dokcer as provider for Vagrant.
+
+__NOTE__: Run this on a Linux Machine with Docker installed.
+
+## COnfiguring a Vagrantfile with Docker
+
+From the exercise root directory create the directory structure
+
+```shell
+mkdir -p docker-provisioner/vagrant
+cd docker-provisioner/vagrant
+```
+
+Create a Vagrantfile like this
+
+```ruby
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Specify Vagrant version and Vagrant API version
+Vagrant.require_version ">= 1.6.0"
+VAGRANTFILE_API_VERSION = "2"
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
+
+# Create and configure the Docker container(s)
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # Disable synced folders for the Docker container
+  # (prevents an NFS error on "vagrant up")
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  # Configure the Docker provider for Vagrant
+  config.vm.provider "docker" do |docker|
+
+    # Define the location of the Vagrantfile for the host VM
+    # Comment out this line to use default host VM that is
+    # based on boot2docker
+    docker.vagrant_vagrantfile = "host/Vagrantfile"
+
+    # Specify the Docker image to use
+    docker.image = "nginx"
+
+    # Specify port mappings
+    # If omitted, no ports are mapped!
+    docker.ports = ['80:80', '443:443']
+
+    # Specify a friendly name for the Docker container
+    docker.name = 'nginx-container'
+  end
+end
+```
+
+To run this configuration type 
+
+```shell
+vagrant up
+```
