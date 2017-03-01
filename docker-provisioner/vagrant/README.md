@@ -4,7 +4,7 @@ This exercise guides you how to use Dokcer as provider for Vagrant.
 
 __NOTE__: Run this on a Linux Machine with Docker installed.
 
-## COnfiguring a Vagrantfile with Docker
+## Configuring a Vagrantfile with Docker
 
 From the exercise root directory create the directory structure
 
