@@ -24,5 +24,5 @@ def update_tokens(template_file)
  return updated
 end
 
-new_xml=update_tokens("/Users/anadi/Code/meetup/cgi-devops/slave-templates/slave-node-template.xml")
+new_xml=update_tokens("/Users/anadi/Code/meetup/cgi-devops/pipeline/slave-templates/slave-node-template.xml")
 File.open("slave-#{ARGV[0]}-#{ARGV[5]}.xml", 'w') {|f| f.write(new_xml) }

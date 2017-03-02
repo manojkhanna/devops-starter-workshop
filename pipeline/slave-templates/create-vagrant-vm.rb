@@ -10,7 +10,7 @@ $tcport = ARGV[3]
 $memory = ARGV[4]
 
 JENKINS_HOME="/Users/anadi/Code/meetup/cgi-devops/jenkins/home"
-VAGRANT_ROOT="/Users/anadi/Code/meetup/cgi-devops/vagrant-vms"
+VAGRANT_ROOT="/Users/anadi/Code/meetup/cgi-devops/pipeline/vagrant-vms"
 
 # method update_tokens takes template_file, expecting globals
 # to be set, and will return an updated string with tokens replaced.
@@ -26,6 +26,7 @@ def update_tokens(template_file)
  return updated
 end
 
-new_vagrant=update_tokens("/Users/anadi/Code/meetup/cgi-devops/slave-templates/vagrant-template")
+new_vagrant=update_tokens("/Users/anadi/Code/meetup/cgi-devops/pipeline/slave-templates/vagrant-template")
 Dir.mkdir "#{VAGRANT_ROOT}/#{ARGV[0]}"
 File.open("#{VAGRANT_ROOT}/#{ARGV[0]}/Vagrantfile", 'w') {|f| f.write(new_vagrant) }
+FileUtils.copy(File.dirname(__FILE__)+"/Berksfile", "#{VAGRANT_ROOT}/#{ARGV[0]}/")

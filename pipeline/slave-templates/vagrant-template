@@ -24,6 +24,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 		#setting port forward for apache http
 		dev.vm.network :forwarded_port, guest: 80, host: <%= $webport %>, id: "httpd"
+		#setting port forward for apache tomcat, out webapp will be bundled as a docker container
 		dev.vm.network :forwarded_port, guest: 8080, host: <%= $tcport %>, id: "tomcat"
 
 		dev.vm.provider :virtualbox do |vbox|
@@ -32,9 +33,10 @@ VAGRANTFILE_API_VERSION = "2"
 			vbox.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
 		end
 
-    dev.vm.provision "chef_solo" do |chef|
-      chef.cookbooks_path = "../../cookbooks"
-      chef.add_recipe "learn_chef_apache2"
-    end 
+    	dev.vm.provision "chef_solo" do |chef|
+      		chef.cookbooks_path = "../../../cookbooks"
+      		chef.add_recipe "cgi_docker"
+      		chef.add_recipe "cgi_openjdk"
+    	end 
 	end
 end

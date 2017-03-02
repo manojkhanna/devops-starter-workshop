@@ -1,0 +1,4 @@
+source 'https://supermarket.chef.io'
+
+cookbook 'docker', '~> 2.15.2'
+cookbook 'java', '~> 1.47.0'
