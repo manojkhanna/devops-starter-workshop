@@ -8,5 +8,6 @@ bin/*
 .kitchen/
 .kitchen.local.yml
 /jenkins
-**/logstash/**
+
+#Archives
 *.war
