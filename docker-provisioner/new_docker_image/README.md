@@ -1,6 +1,8 @@
-# Docker basics exercise
+# Docker exercise
 
 This section documents some basic docker commands
+
+## Basics DIY
 
 ### Exercise 0
 In your terminal, type:
@@ -65,3 +67,56 @@ docker run -d ubuntu /bin/bash
 * The large alphanumeric string is the __container ID__ of this container. 
 * This container is executing the /bin/bash command, but in background.
 
+### Common Docker commands
+
+```shell
+docker # list all docker commands
+docker [COMMAND] --help # help for a particular command
+docker images # list all docker images
+docker ps # list all running containers
+docker ps -a # list all containers (running + stopped)
+docker ps -a -q | xargs docker rm # DELETE all containers
+docker stop [CONTAINER NAME] # stop docker container
+docker run … --name some_name # set name of container to be created.
+docker run -it … # run container and start a shell
+```
+
+## Creating a new docker image
+
+From the root direcotry create a folder for adding our new image
+
+```shell
+mkdir -p docker-provisioner/new_docker_image
+cd docker-provisioner/new_docker_image
+```
+
+Create an empty docker file
+
+```shell
+touch Dockerfile
+```
+
+Add syntax to create a new image in this file
+
+```shell
+# Using “ubuntu” as Base Image.
+FROM ubuntu
+RUN apt-get -y update && apt-get install -y fortunes 
+CMD /usr/games/fortune -a
+```
+
+Build the image 
+
+```shell
+docker build -t docker-fortunes .
+```
+
+What did we just do?
+
+#### FROM: 
+* Told Docker to use “ubuntu” as base image.
+* FROM should always be first instruction.
+
+#### CMD
+* Only one CMD line in a Dockerfile.
+* When container is run, execute this command (print out a fortune). 
