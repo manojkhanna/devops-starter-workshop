@@ -120,3 +120,55 @@ What did we just do?
 #### CMD
 * Only one CMD line in a Dockerfile.
 * When container is run, execute this command (print out a fortune). 
+
+## Adding container running multiple processes
+
+This is done using supervisor utility which 
+
+* Allows multiple processes per container run
+* Is a daemon (or service) installed inside the container
+* Is Configured using a supervisord.conf file
+
+### Creating a supervisor based image
+
+From the docker-provision directory create a directory named supervisor
+
+```shell
+mkdir supervisor
+cd supervisor
+```
+
+Add a docker file with following contents
+
+```shell
+FROM ubuntu
+RUN apt-get update && apt-get install -y openssh-server apache2 supervisor
+RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/run/sshd /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+EXPOSE 22 80
+CMD ["/usr/bin/supervisord"]
+```
+
+Create a supervisord.conf file in the same folder as this Dockerfile
+
+```shell
+# global settings for supervisor go here
+[supervisord]
+# start supervisor in foreground instead of as a daemon
+nodaemon=true
+# tells supervisor to control “sshd” 
+[program:sshd]
+command=/usr/sbin/sshd -D # this command will start “sshd”
+# tells supervisor to control apache2
+[program:apache2]
+# this command starts apache2
+command=/bin/bash -c "source /etc/apache2/envvars && exec /usr/sbin/apache2 -DFOREGROUND"
+```
+
+Build the docker container 
+
+```shell
+docker build -t sshapache2 .
+```
+
+Run it as usual, and you'll have a container with SSH and Apache2.
