@@ -18,6 +18,5 @@ The exercises a divided into following sections, mapped to folders
 2. Using Vagrant + Virtualbox + Docker to spin up base environments > __slave-templates__
 3. Using Docker based transversal monitoring solution based on ELK > __monitoring__
 4. Using Docker to simplify deployment processes > __jenkins-jobs__
-5. Using ELK Stack for adding monitoring as a service for all environments > __monitoring__
 
 
