@@ -11,3 +11,5 @@ bin/*
 
 #Archives
 *.war
+
+pipeline/containers/*

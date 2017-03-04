@@ -90,3 +90,5 @@ http.port: 9200
 # Require explicit names when deleting indices:
 #
 #action.destructive_requires_name: true
+#disbale X-Pack security
+xpack.security.enabled: false
