@@ -1,0 +1,42 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# vi: set paste :
+# vi: set autoindent :
+# vi: set tabstop=4 :
+# vi: set shiftwidth=4 :
+# vi: set softtabstop=4 :
+# vi: set smarttab :
+# vi: set expandtab :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+	Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+		config.vm.define "docker-host" do |dev|
+		dev.vm.box = "bento/ubuntu-14.04"
+		dev.vm.hostname = "docker-host.agilityroots.com"
+
+		# add additional adapter for inter machine networking
+		dev.vm.network :private_network, :type => "dhcp"
+
+		dev.vm.network:forwarded_port, guest: 22, host: 2229, id: "ssh", auto_correct: true
+
+		#setting port forward for apache http
+		dev.vm.network :forwarded_port, guest: 80, host: 8181, id: "httpd"
+		#setting port forward for apache tomcat, out webapp will be bundled as a docker container
+		dev.vm.network :forwarded_port, guest: 8080, host: 8989, id: "tomcat"
+
+		dev.vm.provider :virtualbox do |vbox|
+			vbox.name = "docker-host"
+			vbox.memory = "512"
+			vbox.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+		end
+
+    	dev.vm.provision "chef_solo" do |chef|
+      		chef.cookbooks_path = "../../../cookbooks"
+      		chef.add_recipe "cgi_docker"
+      		chef.add_recipe "cgi_openjdk"
+    	end 
+	end
+end
