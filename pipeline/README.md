@@ -102,7 +102,7 @@ curl http://localhost:8080/jenkins/jnlpJars/jenkins-cli.jar -o jenkins-cli-.jar
 
 We will be using this CLI JAR for intallation of plugins & automation of slave creation
 
-### Installing Plugins
+#### Installing Plugins
 
 From the clone root directory, run the following commands to ensure we havethe right set of plugins needed for our pipeline
 
@@ -125,7 +125,7 @@ java -jar jenkins/home/cli/jenkins-cli.jar -s http://localhost:8080/jenkins inst
 java -jar jenkins/home/cli/jenkins-cli.jar -s http://localhost:8080/jenkins install-plugin vagrant -deploy
 ```
 
-__Sample plugin install output__
+#### Sample plugin install output
 
 Here's how it should look for a plugin install command
 
@@ -136,7 +136,7 @@ Installing build-pipeline-plugin from update center
 MacBook-Pro-2:cgi-devops anadi$
 ```
 
-### Creating a simple CI job
+#### Creating a simple CI job
 
 From the clone root directory, run the following the command to create a simple CI build for the sample application
 
@@ -201,7 +201,7 @@ docker ps -a
 
 You shouldn't get any containers as response at this point. 
 
-Move to the exercises under __monitoring__ folder to setup Docker containers inside the VMs.
+Move to the exercises under __monitoring__ & __tomcat-filebeat__ folders to setup Docker containers inside the VMs.
 
 ## Continuous deployment pipeline
 
